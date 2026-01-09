@@ -1,0 +1,94 @@
+# ========================
+# Python
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ========================
+# Virtual Environment
+# ========================
+venv/
+.venv/
+env/
+.env
+.env.*
+
+# ========================
+# PyInstaller
+# ========================
+build/
+dist/
+*.spec
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# OS files
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# IDE / Editor
+# ========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ========================
+# Jupyter Notebook
+# ========================
+.ipynb_checkpoints/
+
+# ========================
+# Test / Coverage
+# ========================
+.coverage
+htmlcov/
+.tox/
+pytest_cache/
+
+# ========================
+# Cache / Temp
+# ========================
+*.tmp
+*.bak
+*.cache
+*.dmp
+
+# ========================
+# SQLite / DB
+# ========================
+*.sqlite
+*.sqlite3
+*.db
+
+# ========================
+# OCR / OpenCV / Debug images
+# ========================
+images/emulator-*/
+dist/images/
+debug/
+output/
+screenshots/
+
+# ========================
+# Game automation temp
+# ========================
+screen.png
+screens.png
+*_debug.*
+*_temp.*
+
+# ========================
+# Zip / Binary
+# ========================
+*.zip
+*.exe
