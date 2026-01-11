@@ -4,27 +4,29 @@ class Product:
         
         id_page: int,
         code:str,
-        image:str,
+        image:list[str],
         color:list[str],
         price:float,
         product_type: str,
-        product_name: str,
+       
         chat_lieu: str,
         pancake_reply_price:str,
 
-        message_b1:list[dict["text": str, "images": str]],
-        message_b2:list[dict["text": str, "images": str]],
-        message_b3:list[dict["text": str, "images": str]],
-        message_b4:list[dict["text": str, "images": str]],
-        message_cl:list[dict["text": str, "images": str]],
-        message_ld:list[dict["text": str, "images": str]],
+        message_1b:list[dict["text": str, "images": list[str]]],
+        message_2b:list[dict["text": str, "images": list[str]]],
+        message_3b:list[dict["text": str, "images": list[str]]],
+        message_4b:list[dict["text": str, "images": list[str]]],
+        message_cl:list[dict["text": str, "images": list[str]]],
+        message_ld:list[dict["text": str, "images": list[str]]],
 
 
         pos_product_code: str ,
         pos_product_name: str,
         
+        pos_product_price: float,
         attr_color: list[str],
         attr_size: list[str],
+        pos_product_combo:list[dict["combo_name": str, "price": float] ,"quantity": int],
         mau: str ,
        
         ma_anh: str,
@@ -35,7 +37,7 @@ class Product:
         botcake_price_instant: float = None,
 
         # Combo
-        combo_name: str = None,
+      
 
         
 
@@ -51,22 +53,22 @@ class Product:
         self.color = color
         self.price = price
         self.product_type = product_type
-        self.product_name = product_name
         self.chat_lieu = chat_lieu
         self.pancake_reply_price = pancake_reply_price  
-        self.message_b1 = message_b1
-        self.message_b2 = message_b2
-        self.message_b3 = message_b3
-        self.message_b4 = message_b4
+        self.message_1b = message_1b
+        self.message_2b = message_2b
+        self.message_3b = message_3b
+        self.message_4b = message_4b
         self.message_cl = message_cl
         self.message_ld = message_ld
         self.pos_product_code = pos_product_code
         self.pos_product_name = pos_product_name
-
-        self.ma_anh = ma_anh
-
+        self.pos_product_price = pos_product_price
         self.attr_color = attr_color
         self.attr_size = attr_size
+        self.ma_anh = ma_anh
+
+       
         self.mau = mau
  
 
@@ -75,7 +77,7 @@ class Product:
         self.bao_gia_pancake = bao_gia_pancake
         self.botcake_price_instant = botcake_price_instant
 
-        self.combo_name = combo_name
+        self.pos_product_combo = pos_product_combo
 
         
         self.comment_default = comment_default
@@ -100,15 +102,14 @@ Chất liệu: {self.chat_lieu}
 
 Báo giá pancake: {self.pancake_reply_price}
 TIn nhắn:
-1b: {(self.message_b1)} | 2b: {self.message_b2} | 3b: {self.message_b3} | 4b: {self.message_b4}
-CL: {self.message_cl} | LD: {self.message_ld}
+1b: {(self.message_b1)} 
 ===POS===
 pos_product_code: {self.pos_product_code}
 pos_product_name: {self.pos_product_name}
 Thuộc tính:
 - Màu: {self.attr_color}
 - Size: {self.attr_size}
-- Chất liệu: {self.chat_lieu}
+- Giá POS: {self.pos_product_price}
 
 Giá:
 - Giá gốc: {self.gia_san_pham}
@@ -116,7 +117,7 @@ Giá:
 - Báo giá Pancake: {self.bao_gia_pancake}
 - Báo giá Botcake (ngay): {self.botcake_price_instant}
 
-Combo: {self.combo_name}
+Combo: {self.pos_product_combo}
 
 
 
