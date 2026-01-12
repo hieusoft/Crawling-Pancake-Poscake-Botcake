@@ -30,7 +30,7 @@ class PancakeAPI:
         self.page_id = page_id
         self.access_token = access_token or "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGlldSIsImV4cCI6MTc3NDc1NzA1NywiYXBwbGljYXRpb24iOjEsInVpZCI6ImFjNmU3MjQ0LWYyZTQtNGUxNy04YTk5LTgzNDA3NjhiOWZmMSIsInNlc3Npb25faWQiOiJmZDU3NzIzMy0yYzJjLTRiMzAtODBjOS03ODQ0NGRmNWRmZDUiLCJpYXQiOjE3NjY5ODEwNTcsImZiX2lkIjoiMjM4NDQwNzc5NTE3Njc4MCIsImxvZ2luX3Nlc3Npb24iOm51bGwsImZiX25hbWUiOiJoaWV1In0.sE7-XOHDgrPSGf_oisgH8Ezr90-1Rzyhpb_3btFdqKs"
 
-        # API URLs
+       
         self.base_url = f"https://pancake.vn/api/v1/pages/{self.page_id}/settings"
         self.pages_url = "https://pancake.vn/api/v1/pages"
         self.contents_url = f"https://pancake.vn/api/v1/pages/{self.page_id}/contents"
@@ -70,6 +70,7 @@ class PancakeAPI:
             data = response.json()
             settings = data.get("settings", {})
             quick_replies = settings.get("quick_replies", [])
+           
             current_settings_key = settings.get("current_settings_key")
 
             return {
@@ -97,7 +98,7 @@ class PancakeAPI:
         Returns:
             bool: True nếu update thành công, False nếu thất bại
         """
-        log("Sending POST request to update settings", "INFO")
+        # log("Sending POST request to update settings", "INFO")
 
         if not current_settings_key:
             log("current_settings_key is required", "ERROR")
@@ -223,16 +224,28 @@ class PancakeAPI:
 
             if response.status_code == 200:
                 upload_data = response.json()
-            
+               
                 if upload_data.get("success"):
                     # Tạo photo object dựa trên response từ Pancake
-                    photo_obj = {
-                        "id": upload_data.get("content_id", ""),
-                        "image_data": upload_data.get("image_data", {"height": 0, "width": 0}),
-                        "name": upload_data.get("name", filename),
-                        "preview_url": upload_data.get("content_preview_url", ""),
-                        "url": upload_data.get("content_url", "")
-                    }
+                    # Lưu URL đầy đủ từ response để sử dụng sau này
+                    content_url = upload_data.get("content_url", "")
+                    if not content_url:
+                        # Fallback: construct URL from other data
+                        content_id = upload_data.get("content_id", "")
+                        if content_id:
+                            content_url = f"https://content.pancake.vn/{self.page_id}/{content_id}"
+
+                    # Lưu TOÀN BỘ response từ Pancake API upload
+                    photo_obj = upload_data.copy()
+
+                    # Đảm bảo có các field cần thiết cho compatibility
+                    photo_obj.setdefault("id", upload_data.get("content_id", ""))
+                    photo_obj.setdefault("url", upload_data.get("content_url", ""))
+                    photo_obj.setdefault("preview_url", upload_data.get("content_preview_url", ""))
+                    photo_obj.setdefault("image_data", upload_data.get("image_data", {"height": 0, "width": 0}))
+                    photo_obj.setdefault("name", upload_data.get("name", filename))
+                   
+                    
                     return photo_obj
                 else:
                     log(f"Upload failed: {upload_data.get('message', 'Unknown error')}", "ERROR")

@@ -14,8 +14,8 @@ def log(message: str, level: str = "INFO") -> None:
 
 class GoogleDriveImageDownloader:
 
-    def __init__(self):
-        self.output_dir = "Downloads"
+    def __init__(self, output_dir: str = "Downloads"):
+        self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
 
     def download_image(self, file_id: str) -> Optional[str]:

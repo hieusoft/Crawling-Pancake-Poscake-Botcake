@@ -143,31 +143,30 @@ class SheetProcessor:
             try:
                 product = Product(
                     id_page=self.safe_int(row[0]),
-                    code=row[2],
-                    image=self.split_color(row[3]),
-                    color=self.split_color(row[4]),
-                    price=self.safe_float(row[5]),
-                    product_type=row[6],
+                    code=row[19],
+                    image=self.split_color(row[5]),
+                    color=self.split_color(row[6]),
+                    price=self.safe_float(row[7]),
+                    product_type=row[8],
                   
-                    chat_lieu=row[7],
+                    chat_lieu=row[9],
 
-                    pancake_reply_price=self.split_message(row[10]),
-                    message_1b=self.split_message(row[11]),
-                    message_2b=self.split_message(row[12]),
-                    message_3b=self.split_message(row[13]),
-                    message_4b=self.split_message(row[14]),
-                    message_cl=self.split_message(row[15]),
-                    message_ld=self.split_message(row[16]),
-
-                    pos_product_code=row[17],
-                    pos_product_name=row[18],
+                    pancake_reply_price=self.split_message(row[12]),
+                    message_1b=self.split_message(row[13]),
+                    message_2b=self.split_message(row[14]),
+                    message_3b=self.split_message(row[15]),
+                    message_4b=self.split_message(row[16]),
+                    message_cl=self.split_message(row[17]),
+                    message_ld=self.split_message(row[18]),
+                    pos_shop_id=row[2],
+                    pos_product_code=row[19],
+                    pos_product_name=row[20],
   
-                    attr_color=self.split_color(row[19]),
-                    attr_size=self.split_color(row[20]),
-                    pos_product_price=self.safe_float(row[21]),
-                    pos_product_combo=self.split_combo(row[22], row[23], row[24]),
+                    attr_color=self.split_color(row[21]),
+                    attr_size=self.split_color(row[22]),
+                    pos_product_price=self.safe_float(row[23]),
+                    pos_product_combo=self.split_combo(row[24], row[25], row[26]),
                     mau=self.split_message(row[18]),
-                    
                     ma_anh=row[15],
 
                     gia_san_pham=self.safe_float(row[19]),
@@ -205,6 +204,9 @@ def main():
 
         for i, p in enumerate(products, 1):
             print(f"\n--- Product {i} ---")
+            print(f"Code: {getattr(p, 'code', 'N/A')}")
+            print(f"Name: {getattr(p, 'product_name', 'N/A')}")
+            print(f"Shop ID: {getattr(p, 'pos_shop_id', 'N/A')}")
             try:
                 p.display()
             except:

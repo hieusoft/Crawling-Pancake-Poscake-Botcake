@@ -4,7 +4,7 @@ Settings Processor - Handles Pancake settings update operations
 """
 
 from typing import List, Dict, Any, Optional
-
+import json
 # Import services
 from Service.PancakeApi import PancakeAPI
 
@@ -73,10 +73,8 @@ class SettingsProcessor:
         """Create updated replies for a specific product"""
         updated_replies = []
 
-        # Map shortcut patterns to product message fields
-        product_code = getattr(product, 'code', '').upper()
+        # Map shortcut patterns to product message field
         shortcut_to_field = {
-            product_code: product_code,  # Key = Value for product code
             '1b': 'message_1b',
             '2b': 'message_2b',
             '3b': 'message_3b',
@@ -84,26 +82,21 @@ class SettingsProcessor:
             'cl': 'message_cl',
             'ld': 'message_ld'
         }
-        print(shortcut_to_field)
+
         for reply in current_replies:
-            reply_shortcut = reply.get('shortcut', '').lower()
-            
-            # Update messages based on shortcut
+            reply_shortcut = reply.get('shortcut', '')
             if reply_shortcut in shortcut_to_field:
                 field_name = shortcut_to_field[reply_shortcut]
                 product_messages = getattr(product, field_name, [])
                 
                 if product_messages and 'messages' in reply:
-                    # Update each message in the reply
                     for i, reply_message in enumerate(reply['messages']):
                         if i < len(product_messages):
                             product_msg = product_messages[i]
 
-                            # Update message text
                             if 'text' in product_msg:
                                 reply_message['message'] = product_msg['text']
 
-                            # Update message images
                             if 'images' in product_msg and product_msg['images']:
                                 updated_photos = []
                                 for img_id in product_msg['images']:
@@ -117,26 +110,69 @@ class SettingsProcessor:
                                             'image_data': photo_obj.get('image_data', {})
                                         })
                                 reply_message['photos'] = updated_photos
-
-            # Also update main product images if shortcut matches product code
-            reply_code = reply.get('code', '')
-            if reply_code == getattr(product, 'code', ''):
-                if 'messages' in reply and reply['messages']:
-                    first_message = reply['messages'][0]
-                    if 'photos' in first_message and hasattr(product, 'image') and product.image:
-                        updated_images = []
-                        for img_id in product.image:
-                            if img_id in uploaded_images:
-                                photo_obj = uploaded_images[img_id]
-                                updated_images.append({
-                                    'id': photo_obj.get('id', ''),
-                                    'url': photo_obj.get('url', ''),
-                                    'preview_url': photo_obj.get('preview_url', ''),
-                                    'name': photo_obj.get('name', ''),
-                                    'image_data': photo_obj.get('image_data', {})
-                                })
-                        first_message['photos'] = updated_images
-
             updated_replies.append(reply)
+
+        # Update first reply with pancake_reply_price
+        try:
+            if updated_replies and hasattr(product, 'pancake_reply_price') and product.pancake_reply_price:
+                first_reply = updated_replies[0]
+                if 'messages' in first_reply and first_reply['messages']:
+                    product_messages = getattr(product, 'pancake_reply_price', [])
+                    if isinstance(product_messages, list):
+
+                        for i, reply_message in enumerate(first_reply['messages']):
+                            if i < len(product_messages):
+                                product_msg = product_messages[i]
+
+                                if isinstance(product_msg, dict):
+                                    if 'text' in product_msg:
+                                        reply_message['message'] = product_msg['text']
+
+                                    if 'images' in product_msg and product_msg['images']:
+                                        updated_photos = []
+                                        for img_id in product_msg['images']:
+                                            # Try multiple matching strategies
+                                            found = False
+                                            if img_id in uploaded_images:
+                                                photo_obj = uploaded_images[img_id]
+                                                found = True
+                                            elif str(img_id) in uploaded_images:
+                                                photo_obj = uploaded_images[str(img_id)]
+                                                found = True
+                                            else:
+                                                # Try removing .jpg extension
+                                                img_id_no_ext = img_id.replace('.jpg', '').replace('.jpeg', '').replace('.png', '')
+                                                if img_id_no_ext in uploaded_images:
+                                                    photo_obj = uploaded_images[img_id_no_ext]
+                                                    found = True
+                                                else:
+                                                    # Try matching by filename in photo_obj.name
+                                                    for key, photo_data in uploaded_images.items():
+                                                        photo_name = photo_data.get('name', '').replace('.jpg', '').replace('.jpeg', '').replace('.png', '')
+                                                        if photo_name == img_id_no_ext or photo_data.get('name') == img_id:
+                                                            photo_obj = photo_data
+                                                            found = True
+                                                            break
+
+                                            if found:
+                                                # Sử dụng TOÀN BỘ data từ Pancake API response
+                                                updated_photos.append(photo_obj.copy())
+                                            else:
+                                                # Try to get full data from photo_obj if available, otherwise create fallback
+                                                photo_obj = uploaded_images.get(img_id)
+                                                if photo_obj:
+                                                    updated_photos.append(photo_obj.copy())
+                                                else:
+                                                    # Create a basic photo object for missing images
+                                                    updated_photos.append({
+                                                        'id': img_id,
+                                                        'url': f"https://content.pancake.vn/2-2601/2026/1/8/{img_id}",
+                                                        'preview_url': f"https://content.pancake.vn/2-2601/2026/1/8/{img_id}",
+                                                        'name': img_id,
+                                                        'image_data': {'height': 1000, 'width': 600}
+                                                    })
+                                        reply_message['photos'] = updated_photos
+        except Exception as e:
+            print(f"[ERROR] Failed to update first reply: {e}")
 
         return updated_replies

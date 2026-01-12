@@ -10,7 +10,8 @@ class Product:
         product_type: str,
        
         chat_lieu: str,
-        pancake_reply_price:str,
+        
+        pancake_reply_price:list[dict["text": str, "images": list[str]]],
 
         message_1b:list[dict["text": str, "images": list[str]]],
         message_2b:list[dict["text": str, "images": list[str]]],
@@ -20,6 +21,7 @@ class Product:
         message_ld:list[dict["text": str, "images": list[str]]],
 
 
+        pos_shop_id: int,
         pos_product_code: str ,
         pos_product_name: str,
         
@@ -27,6 +29,8 @@ class Product:
         attr_color: list[str],
         attr_size: list[str],
         pos_product_combo:list[dict["combo_name": str, "price": float] ,"quantity": int],
+        
+        
         mau: str ,
        
         ma_anh: str,
@@ -61,6 +65,7 @@ class Product:
         self.message_4b = message_4b
         self.message_cl = message_cl
         self.message_ld = message_ld
+        self.pos_shop_id = pos_shop_id
         self.pos_product_code = pos_product_code
         self.pos_product_name = pos_product_name
         self.pos_product_price = pos_product_price
@@ -87,25 +92,33 @@ class Product:
         self.send_message_type = send_message_type
 
     def display(self):
+        # Helper function to safely print Unicode text
+        def safe_print(text):
+            try:
+                return str(text)
+            except UnicodeEncodeError:
+                return "[Unicode text]"
+
         print(f"""
 === PRODUCT ===
 Page ID: {self.id_page}
-Code: {self.code}
+Code: {safe_print(self.code)}
 Image: {self.image}
-Color: {self.color}
+Color: {len(self.color) if self.color else 0} colors
 Price: {self.price}
-Loại Sản phẩm: {self.product_type}
-Chất liệu: {self.chat_lieu}
+Loại Sản phẩm: {safe_print(self.product_type)}
+Chất liệu: {safe_print(self.chat_lieu)}
 
 
 ===Pancake ===
 
 Báo giá pancake: {self.pancake_reply_price}
 TIn nhắn:
-1b: {(self.message_b1)} 
+1b: {(self.message_1b)}
 ===POS===
-pos_product_code: {self.pos_product_code}
-pos_product_name: {self.pos_product_name}
+POS Shop ID: {self.pos_shop_id}
+pos_product_code: {safe_print(self.pos_product_code)}
+pos_product_name: {safe_print(self.pos_product_name)}
 Thuộc tính:
 - Màu: {self.attr_color}
 - Size: {self.attr_size}
@@ -122,9 +135,9 @@ Combo: {self.pos_product_combo}
 
 
 Nội dung tương tác:
-- Bình luận mặc định: {self.comment_default}
-- Bình luận có SĐT: {self.comment_with_phone}
-- Tin nhắn từ BL: {self.message_from_comment}
-- Tin nhắn BL có SĐT: {self.message_from_comment_with_phone}
+- Bình luận mặc định: {safe_print(self.comment_default)}
+- Bình luận có SĐT: {safe_print(self.comment_with_phone)}
+- Tin nhắn từ BL: {safe_print(self.message_from_comment)}
+- Tin nhắn BL có SĐT: {safe_print(self.message_from_comment_with_phone)}
 - Kiểu gửi tin: {self.send_message_type}
 """)

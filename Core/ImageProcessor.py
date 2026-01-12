@@ -4,6 +4,8 @@ Image Processor - Handles image download and upload operations
 """
 
 import concurrent.futures
+import os
+import sys
 from typing import List, Dict, Any, Optional
 
 # Import services
@@ -22,7 +24,19 @@ class ImageProcessor:
     """
 
     def __init__(self):
-        self.image_downloader = GoogleDriveImageDownloader()
+        # Set up image directory based on execution context
+        if getattr(sys, 'frozen', False):
+            # Running as exe
+            self.image_dir = os.path.join(os.path.dirname(sys.executable), "images")
+        else:
+            # Running as script
+            self.image_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images")
+
+        # Create images directory if it doesn't exist
+        os.makedirs(self.image_dir, exist_ok=True)
+
+        # Initialize downloader with custom output directory
+        self.image_downloader = GoogleDriveImageDownloader(output_dir=self.image_dir)
         self.downloaded_images = {}  # Cache downloaded images
         self.uploaded_images = {}    # Cache uploaded images
 
@@ -94,7 +108,7 @@ class ImageProcessor:
                     if local_path:
                         self.downloaded_images[image_id] = local_path
                         downloaded_count += 1
-                        log(f"[Thread-{thread_id}] Downloaded {image_id}", "SUCCESS")
+                        log(f"[Thread-{thread_id}] Downloaded {image_id} to {os.path.basename(local_path)}", "SUCCESS")
                     else:
                         log(f"[Thread-{thread_id}] Failed {image_id}", "ERROR")
                 except Exception as e:
