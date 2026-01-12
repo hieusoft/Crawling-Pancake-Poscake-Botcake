@@ -125,3 +125,4 @@ cp quick_replies.json dist/
 - **Performance:** Exe có performance tương đương script Python
 
 
+

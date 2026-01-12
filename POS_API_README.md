@@ -37,6 +37,26 @@ product_data = api.create_product_data(product)
 result = api.send_product(product_data)
 print("Status:", result["status_code"])
 print("Success:", result["success"])
+
+# === TẠO COMBO PRODUCT ===
+combo_data = {
+    "name": "Combo Áo Thun + Quần Jean",
+    "description": "Combo tiết kiệm với áo thun và quần jean",
+    "price": 250000,
+    "items": [
+        {
+            "product_id": "product-id-1",
+            "quantity": 1
+        },
+        {
+            "product_id": "product-id-2",
+            "quantity": 1
+        }
+    ]
+}
+
+combo_result = api.create_combo_product(combo_data)
+print("Combo created:", combo_result.get("success"))
 ```
 
 ## Cấu hình
@@ -89,6 +109,42 @@ Tạo payload data cho API request từ Product object
 ### `send_product(product_data: Dict)`
 Gửi product lên POS API
 - Returns: `{"status_code": int, "success": bool, "response_text": str}`
+
+### `create_combo_product(combo_data: Dict[str, Any])`
+Tạo combo product trên POS
+- **Parameters:** `combo_data` - Dictionary chứa thông tin combo product
+- **Returns:** Dict với kết quả tạo combo
+- **API Endpoint:** `POST /api/v1/shops/{shop_id}/combo_products`
+- **Response Structure:**
+  ```python
+  {
+    "success": bool,
+    "data": {...},           # Combo product data từ API
+    "status_code": int,     # HTTP status code
+    "error": str            # Error message (nếu có)
+  }
+  ```
+- **Combo Data Structure:**
+  ```python
+  {
+    "name": "Tên combo",
+    "description": "Mô tả combo",
+    "price": 150000,        # Giá combo (VND)
+    "items": [
+      {
+        "product_id": "product-id-1",
+        "quantity": 1
+      },
+      {
+        "product_id": "product-id-2",
+        "quantity": 2
+      }
+    ]
+  }
+  ```
+
+### `test_create_combo_product()`
+Test tạo combo product
 
 ### `test_search_product(product_code: str)`
 Test tìm sản phẩm theo code

@@ -287,7 +287,7 @@ class PosAPI:
                 # API returns 'data' array instead of 'products'
                 products = data.get("data", [])
                 total_entries = data.get("total_entries", 0)
-
+               
                 log(f"Search response: found {len(products)} products, total_entries: {total_entries} for code '{product_code}'", "INFO")
 
                 # Always return the full response data with products array
@@ -305,8 +305,9 @@ class PosAPI:
                     result["first_product"] = product_info
                 else:
                     log(f"No product found with code: {product_code} (total in shop: {total_entries})", "WARNING")
-
+                
                 return result
+
             else:
                 log(f"Search failed: HTTP {response.status_code}", "ERROR")
                 return {
@@ -349,6 +350,73 @@ class PosAPI:
                 "searched_code": product_code
             }
 
+    def create_combo_product(self, combo_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a combo product on POS
+
+        Args:
+            combo_data: Dictionary containing combo product data
+
+        Returns:
+            Dict with creation result
+        """
+        url = f"{self.base_url}/combo_products"
+        params = {"access_token": self.access_token}
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "Origin": "https://pos.pancake.vn",
+            "Referer": f"https://pos.pancake.vn/shop/{self.shop_id}/product/combo"
+        }
+
+        try:
+            log(f"Creating combo product: {combo_data.get('combo_product', {}).get('name', 'Unknown')}", "INFO")
+
+            response = requests.post(
+                url,
+                params=params,
+                json=combo_data,
+                headers=headers,
+                timeout=30
+            )
+
+            if response.status_code in [200, 201]:
+                try:
+                    result = response.json()
+                    log(f"Combo product created successfully: {result.get('name', 'Unknown')}", "SUCCESS")
+                    return {
+                        "success": True,
+                        "data": result,
+                        "status_code": response.status_code
+                    }
+                except json.JSONDecodeError:
+                    log("Combo product created (response not JSON)", "SUCCESS")
+                    return {
+                        "success": True,
+                        "data": {"message": "Combo created successfully"},
+                        "status_code": response.status_code
+                    }
+            else:
+                log(f"Failed to create combo product: HTTP {response.status_code}", "ERROR")
+                return {
+                    "success": False,
+                    "error": f"HTTP {response.status_code}",
+                    "status_code": response.status_code
+                }
+
+        except requests.exceptions.RequestException as e:
+            log(f"Network error creating combo product: {e}", "ERROR")
+            return {
+                "success": False,
+                "error": f"Network error: {str(e)}"
+            }
+        except Exception as e:
+            log(f"Unexpected error creating combo product: {e}", "ERROR")
+            return {
+                "success": False,
+                "error": f"Unexpected error: {str(e)}"
+            }
 
     def test_search_product(self, product_code: str = "ED56") -> None:
         """Test method to search product by code"""
@@ -368,12 +436,62 @@ class PosAPI:
         else:
             total_in_shop = search_result.get("total_entries", 0) if search_result else 0
             print(f"No product found with code: {product_code} (total in shop: {total_in_shop})")
+
+    def test_create_combo_product(self) -> None:
+        """Test method to create a combo product"""
+        log("Testing PosAPI combo product creation", "INFO")
+
+        # First, search for a product to get its ID
+        product_code = "ED56"  # Change this to the product code you want to use in combo
+        log(f"Searching for product with code: {product_code}", "INFO")
+
+        search_result = self.search_product_by_code(product_code)
+
+        if not search_result.get("products_found", 0) > 0:
+            log(f"No product found with code {product_code}, cannot create combo", "ERROR")
+            return
+
+        # Get the first product's ID from search results
+        product_id = search_result.get("first_product", {}).get("id")
+        if not product_id:
+            log("Could not get product ID from search results", "ERROR")
+            return
+
+        log(f"Found product ID: {product_id}", "SUCCESS")
+
+        # Create combo data using the found product ID
+        combo_data = {
+            "combo_product": {
+                "name": "COMBO 2 ÁO ED56",
+                "value_combo": 699000,
+                "is_value_combo": True,
+                "variations": [
+                    {
+                        "count": 2,
+                        "product_id": product_id,  # Use the found product ID
+                        "variation_id": None
+                    }
+                ]
+            }
+        }
+
+        # Create combo product
+        result = self.create_combo_product(combo_data)
+
+        if result.get("success"):
+            print("Combo product created successfully!")
+            print(f"Response: {result.get('data')}")
+        else:
+            print(f"Failed to create combo product: {result.get('error')}")
 def main():
     """Main function for testing"""
     api = PosAPI()
 
-    # Test product search
+    print("=== Testing Product Search ===")
     api.test_search_product("ED56")
+
+    print("\n=== Testing Combo Product Creation ===")
+    api.test_create_combo_product()
 
 
 if __name__ == "__main__":
