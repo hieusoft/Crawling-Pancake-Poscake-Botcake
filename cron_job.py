@@ -34,6 +34,7 @@ class ProductCronJob:
         self.sheet_processor = SheetProcessor()
         self.previous_products: Dict[str, Dict] = {}
         self.processed_codes: Set[str] = set()
+        self.previous_codes: Dict[str, str] = {}  # Track previous code for each product hash
 
         # Load previous state
         self._load_state()
@@ -46,6 +47,7 @@ class ProductCronJob:
                     data = json.load(f)
                     self.previous_products = data.get('products', {})
                     self.processed_codes = set(data.get('processed_codes', []))
+                    self.previous_codes = data.get('previous_codes', {})
                 log(f"Loaded state: {len(self.previous_products)} products, {len(self.processed_codes)} processed")
             else:
                 log("No previous state file found, starting fresh")
@@ -58,6 +60,7 @@ class ProductCronJob:
             data = {
                 'products': self.previous_products,
                 'processed_codes': list(self.processed_codes),
+                'previous_codes': self.previous_codes,
                 'last_updated': time.time()
             }
             with open(self.state_file, 'w', encoding='utf-8') as f:
@@ -83,9 +86,14 @@ class ProductCronJob:
         data_str = json.dumps(product_data, sort_keys=True, default=str)
         return str(hash(data_str))
 
-    def _check_product_changes(self, current_products: List[Product]) -> List[Product]:
-        """Check which products have changed or are new"""
+    def _check_product_changes(self, current_products: List[Product]) -> tuple[List[Product], List[Product]]:
+        """Check which products have changed or are new
+
+        Returns:
+            tuple: (products_to_process, products_need_new_combo)
+        """
         changed_products = []
+        combo_products = []  # Products that need new combo creation (code changed or new)
 
         current_product_map = {getattr(p, 'code', ''): p for p in current_products if getattr(p, 'code', '')}
 
@@ -94,22 +102,42 @@ class ProductCronJob:
             current_hash = self._get_product_hash(product)
 
             if code not in self.previous_products:
-                # New product
-                log(f"NEW PRODUCT detected: {code}")
-                changed_products.append(product)
+                # Check if this is actually a code change of an existing product
+                # Look for products where the hash matches but code changed
+                code_changed = False
+                for prev_code, prev_hash in self.previous_products.items():
+                    if prev_hash == current_hash and prev_code != code:
+                        # This is a code change
+                        log(f"PRODUCT CODE CHANGED from '{prev_code}' to '{code}' - will create new combo")
+                        changed_products.append(product)
+                        combo_products.append(product)
+                        code_changed = True
+                        break
+
+                if not code_changed:
+                    # Truly new product
+                    log(f"NEW PRODUCT detected: {code}")
+                    changed_products.append(product)
+                    combo_products.append(product)  # New products need combo creation
             elif self.previous_products[code] != current_hash:
-                # Changed product
-                log(f"CHANGED PRODUCT detected: {code}")
+                # Existing product with content changes (but same code)
+                log(f"PRODUCT CONTENT CHANGED (same code): {code}")
                 changed_products.append(product)
-            # If hash matches, product unchanged - do nothing
+                # Don't add to combo_products - only create combo when code changes
 
-        # Update previous_products with current state
+        # Update previous_products and previous_codes with current state
         self.previous_products = {code: self._get_product_hash(product) for code, product in current_product_map.items()}
+        self.previous_codes = {code: code for code, product in current_product_map.items()}
 
-        return changed_products
+        return changed_products, combo_products
 
-    def _process_product(self, product: Product) -> bool:
-        """Process a single product"""
+    def _process_product(self, product: Product, create_combo: bool = True) -> bool:
+        """Process a single product
+
+        Args:
+            product: Product to process
+            create_combo: Whether to create combo products in step 5
+        """
         product_code = getattr(product, 'code', 'Unknown')
         product_page_id = str(getattr(product, 'id_page', 'default_page_id'))
 
@@ -124,8 +152,8 @@ class ProductCronJob:
             # Create processor with page-specific token
             processor = ProductProcessor(access_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGlldSIsImV4cCI6MTc3NTkwMjAyNywiYXBwbGljYXRpb24iOjEsInVpZCI6ImFjNmU3MjQ0LWYyZTQtNGUxNy04YTk5LTgzNDA3NjhiOWZmMSIsInNlc3Npb25faWQiOiJkNWZlNDFjYS02YjU1LTQ4MzUtYTA2Ni0xZTA5MDdiMTVlM2QiLCJpYXQiOjE3NjgxMjYwMjcsImZiX2lkIjoiMjM4NDQwNzc5NTE3Njc4MCIsImxvZ2luX3Nlc3Npb24iOm51bGwsImZiX25hbWUiOiJoaWV1In0.K5l98Aeqa8mf8t6UdeuMotQRBQA6Fl7TmTh6z3S0jiw")
 
-            # Process the product
-            if processor.process_product(product):
+            # Process the product with combo flag
+            if processor.process_product(product, create_combo=create_combo):
                 self.processed_codes.add(product_code)
                 log(f"SUCCESS: Processed product {product_code}")
                 return True
@@ -152,7 +180,7 @@ class ProductCronJob:
             log(f"Fetched {len(current_products)} products from sheet")
 
             # Check for changes
-            changed_products = self._check_product_changes(current_products)
+            changed_products, combo_products = self._check_product_changes(current_products)
 
             if not changed_products:
                 log("No product changes detected")
@@ -164,7 +192,9 @@ class ProductCronJob:
             for product in changed_products:
                 product_code = getattr(product, 'code', '')
                 if product_code not in self.processed_codes:
-                    if self._process_product(product):
+                    # Pass combo creation flag to processor
+                    should_create_combo = product_code in [getattr(p, 'code', '') for p in combo_products]
+                    if self._process_product(product, create_combo=should_create_combo):
                         success_count += 1
                 else:
                     log(f"Skipping already processed product: {product_code}")

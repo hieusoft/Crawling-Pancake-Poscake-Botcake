@@ -1,7 +1,12 @@
 {
   "products": {
-    "ÁO ED56 ": "-3618390158190065489"
+    "ÁO ED567": "-6083516547991097532"
   },
-  "processed_codes": [],
-  "last_updated": 1768209036.8386462
+  "processed_codes": [
+    "ÁO ED567"
+  ],
+  "previous_codes": {
+    "ÁO ED567": "ÁO ED567"
+  },
+  "last_updated": 1768222951.3448787
 }

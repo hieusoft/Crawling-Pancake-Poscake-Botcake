@@ -29,12 +29,13 @@ class ProductProcessor:
         self.settings_processor = SettingsProcessor()
         self.last_search_results = {}  # Store last search results to reuse in combo creation
 
-    def process_product(self, product) -> bool:
+    def process_product(self, product, create_combo: bool = True) -> bool:
         """
         Process a complete product workflow: images, settings, pos creation, verify, combo creation
 
         Args:
             product: Product object to process
+            create_combo: Whether to create combo products (only when product code changes)
 
         Returns:
             bool: True if successful
@@ -44,7 +45,8 @@ class ProductProcessor:
         product_page_id = str(getattr(product, 'id_page', 'default_page_id'))
 
         try:
-            log(f"[Thread-{thread_id}] Processing product: {product_code} (Page ID: {product_page_id}) - Steps: Images, Settings, POS, Verify, Combo", "INFO")
+            steps_msg = "Images, Settings, POS, Verify" + (", Combo" if create_combo else "")
+            log(f"[Thread-{thread_id}] Processing product: {product_code} (Page ID: {product_page_id}) - Steps: {steps_msg}", "INFO")
 
             # Tạo PancakeAPI instance riêng cho page_id của product này
             pancake_api = PancakeAPI(page_id=product_page_id, access_token=self.access_token)
@@ -72,10 +74,14 @@ class ProductProcessor:
                 log(f"[Thread-{thread_id}] POS product verification failed for {product_code}", "WARNING")
                 # Don't return False here, as POS creation might have succeeded but search failed
 
-            # Step 5: Create combo products (optional - don't fail if combo creation fails)
-            # Use the search result from step 4 to avoid re-searching
-            if not self.create_combo_product(product):
-                log(f"[Thread-{thread_id}] Combo product creation failed for {product_code}, but continuing...", "WARNING")
+            # Step 5: Create combo products (only if create_combo flag is True)
+            # Only create combo when product code changes, not when other content changes
+            if create_combo:
+                # Use the search result from step 4 to avoid re-searching
+                if not self.create_combo_product(product):
+                    log(f"[Thread-{thread_id}] Combo product creation failed for {product_code}, but continuing...", "WARNING")
+            else:
+                log(f"[Thread-{thread_id}] Skipping combo creation for {product_code} (content changed but code unchanged)", "INFO")
             
             log(f"[Thread-{thread_id}] Completed product: {product_code}", "SUCCESS")
             return True
