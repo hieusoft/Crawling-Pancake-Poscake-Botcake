@@ -116,6 +116,7 @@ class SettingsProcessor:
         try:
             if updated_replies and hasattr(product, 'pancake_reply_price') and product.pancake_reply_price:
                 first_reply = updated_replies[0]
+                updated_replies[0]['shortcut']=product.code
                 if 'messages' in first_reply and first_reply['messages']:
                     product_messages = getattr(product, 'pancake_reply_price', [])
                     if isinstance(product_messages, list):

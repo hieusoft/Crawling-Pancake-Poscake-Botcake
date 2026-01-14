@@ -150,7 +150,7 @@ class ProductCronJob:
             log(f"Processing product: {product_code} (Page ID: {product_page_id})")
 
             # Create processor with page-specific token
-            processor = ProductProcessor(access_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGlldSIsImV4cCI6MTc3NTkwMjAyNywiYXBwbGljYXRpb24iOjEsInVpZCI6ImFjNmU3MjQ0LWYyZTQtNGUxNy04YTk5LTgzNDA3NjhiOWZmMSIsInNlc3Npb25faWQiOiJkNWZlNDFjYS02YjU1LTQ4MzUtYTA2Ni0xZTA5MDdiMTVlM2QiLCJpYXQiOjE3NjgxMjYwMjcsImZiX2lkIjoiMjM4NDQwNzc5NTE3Njc4MCIsImxvZ2luX3Nlc3Npb24iOm51bGwsImZiX25hbWUiOiJoaWV1In0.K5l98Aeqa8mf8t6UdeuMotQRBQA6Fl7TmTh6z3S0jiw")
+            processor = ProductProcessor(access_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVmFuZyBUaHUiLCJleHAiOjE3NzU4OTkwOTUsImFwcGxpY2F0aW9uIjoxLCJ1aWQiOiJmNzcyNDQwYS02MmFhLTRmYWYtOGNmOS0wNzIwZTMzNjBmMzgiLCJzZXNzaW9uX2lkIjoiZjRlY2ExMzAtNTA3Zi00MGYzLTgzOGMtNTM1YTkzMGI3NGY3IiwiaWF0IjoxNzY4MTIzMDk1LCJmYl9pZCI6IjExNTMyOTkyOTExNzg0MCIsImxvZ2luX3Nlc3Npb24iOm51bGwsImZiX25hbWUiOiJWYW5nIFRodSJ9.eWvb9Jax8sbMxLUMxNmYxu0tew50VSIN3tHRKUSNPUE")
 
             # Process the product with combo flag
             if processor.process_product(product, create_combo=create_combo):

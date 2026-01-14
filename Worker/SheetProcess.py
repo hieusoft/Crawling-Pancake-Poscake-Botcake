@@ -143,7 +143,7 @@ class SheetProcessor:
             try:
                 product = Product(
                     id_page=self.safe_int(row[0]),
-                    code=row[19],
+                    code=row[4],
                     image=self.split_color(row[5]),
                     color=self.split_color(row[6]),
                     price=self.safe_float(row[7]),

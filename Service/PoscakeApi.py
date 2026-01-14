@@ -26,7 +26,7 @@ class PosAPI:
             access_token: POS access token
             shop_id: Shop ID
         """
-        self.access_token = access_token or "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGlldSIsImV4cCI6MTc3NTkwMjAyNywiYXBwbGljYXRpb24iOjEsInVpZCI6ImFjNmU3MjQ0LWYyZTQtNGUxNy04YTk5LTgzNDA3NjhiOWZmMSIsInNlc3Npb25faWQiOiJkNWZlNDFjYS02YjU1LTQ4MzUtYTA2Ni0xZTA5MDdiMTVlM2QiLCJpYXQiOjE3NjgxMjYwMjcsImZiX2lkIjoiMjM4NDQwNzc5NTE3Njc4MCIsImxvZ2luX3Nlc3Npb24iOm51bGwsImZiX25hbWUiOiJoaWV1In0.K5l98Aeqa8mf8t6UdeuMotQRBQA6Fl7TmTh6z3S0jiw"
+        self.access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGlldSIsImV4cCI6MTc3NjEwMzUwNywiYXBwbGljYXRpb24iOjEsInVpZCI6ImFjNmU3MjQ0LWYyZTQtNGUxNy04YTk5LTgzNDA3NjhiOWZmMSIsInNlc3Npb25faWQiOiIxNWY2NTQyYy01ODkxLTQwY2EtOWY5MC0wMWNjNTZhZmQ1NzEiLCJpYXQiOjE3NjgzMjc1MDcsImZiX2lkIjoiMjM4NDQwNzc5NTE3Njc4MCIsImxvZ2luX3Nlc3Npb24iOm51bGwsImZiX25hbWUiOiJoaWV1In0.mfGVd1z3Zr8kT2ryu6Nf-5AcRB_QtJFy-UVhW8Haoyk"
         self.shop_id = shop_id or "3027495"
         self.base_url = f"https://pos.pancake.vn/api/v1/shops/{self.shop_id}"
 
@@ -282,6 +282,7 @@ class PosAPI:
                 headers=self.headers,
                 timeout=30
             )
+            print(response.url)
             if response.status_code == 200:
                 data = response.json()
                 # API returns 'data' array instead of 'products'
@@ -398,6 +399,7 @@ class PosAPI:
                         "status_code": response.status_code
                     }
             else:
+                print(response.text)
                 log(f"Failed to create combo product: HTTP {response.status_code}", "ERROR")
                 return {
                     "success": False,
@@ -477,7 +479,6 @@ class PosAPI:
 
         # Create combo product
         result = self.create_combo_product(combo_data)
-
         if result.get("success"):
             print("Combo product created successfully!")
             print(f"Response: {result.get('data')}")

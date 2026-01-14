@@ -1,12 +1,10 @@
 {
   "products": {
-    "ÁO ED567": "-6083516547991097532"
+    "CN11": "3353242088141967944"
   },
-  "processed_codes": [
-    "ÁO ED567"
-  ],
+  "processed_codes": [],
   "previous_codes": {
-    "ÁO ED567": "ÁO ED567"
+    "CN11": "CN11"
   },
-  "last_updated": 1768222951.3448787
+  "last_updated": 1768328696.7940555
 }

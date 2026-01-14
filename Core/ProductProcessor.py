@@ -27,6 +27,7 @@ class ProductProcessor:
         self.access_token = access_token
         self.image_processor = ImageProcessor()
         self.settings_processor = SettingsProcessor()
+        self.pos_api = None  # Will be initialized per product with shop_id
         self.last_search_results = {}  # Store last search results to reuse in combo creation
 
     def process_product(self, product, create_combo: bool = True) -> bool:
@@ -44,6 +45,12 @@ class ProductProcessor:
         product_code = getattr(product, 'code', 'Unknown')
         product_page_id = str(getattr(product, 'id_page', 'default_page_id'))
 
+        # Initialize PosAPI with product's shop_id
+        pos_shop_id = getattr(product, 'pos_shop_id', '')
+        if pos_shop_id:
+            self.pos_api = PosAPI(shop_id=pos_shop_id)
+        
+
         try:
             steps_msg = "Images, Settings, POS, Verify" + (", Combo" if create_combo else "")
             log(f"[Thread-{thread_id}] Processing product: {product_code} (Page ID: {product_page_id}) - Steps: {steps_msg}", "INFO")
@@ -52,22 +59,22 @@ class ProductProcessor:
             pancake_api = PancakeAPI(page_id=product_page_id, access_token=self.access_token)
 
             # Step 1: Process images (download & upload)
-            # if not self.image_processor.process_product_images(product, pancake_api):
-            #     log(f"[Thread-{thread_id}] Failed to process images for {product_code}", "ERROR")
-            #     return False
+            if not self.image_processor.process_product_images(product, pancake_api):
+                log(f"[Thread-{thread_id}] Failed to process images for {product_code}", "ERROR")
+                return False
 
-            # # Step 2: Update settings (optional - continue even if fails)
-            # if not self.settings_processor.update_product_settings(
-            #     product,
-            #     pancake_api,
-            #     self.image_processor.uploaded_images
-            # ):
-            #     log(f"[Thread-{thread_id}] Settings update failed for {product_code}, but continuing...", "WARNING")
+            # Step 2: Update settings (optional - continue even if fails)
+            if not self.settings_processor.update_product_settings(
+                product,
+                pancake_api,
+                self.image_processor.uploaded_images
+            ):
+                log(f"[Thread-{thread_id}] Settings update failed for {product_code}, but continuing...", "WARNING")
 
-            # # Step 3: Create product on POS Pancake
-            # if not self.create_pos_product(product):
-            #     log(f"[Thread-{thread_id}] Failed to create POS product for {product_code}", "ERROR")
-            #     return False
+            # Step 3: Create product on POS Pancake
+            if not self.create_pos_product(product):
+                log(f"[Thread-{thread_id}] Failed to create POS product for {product_code}", "ERROR")
+                return False
 
             # Step 4: Verify POS product creation by searching
             if not self.verify_pos_product(product):
@@ -101,14 +108,11 @@ class ProductProcessor:
             bool: True if successful
         """
         try:
-            # Initialize PosAPI
-            pos_api = PosAPI()
-
             # Create product data from Product object with uploaded images
-            product_data = pos_api.create_product_data(product, self.image_processor.uploaded_images)
+            product_data = self.pos_api.create_product_data(product, self.image_processor.uploaded_images)
 
-            
-            result = pos_api.send_product(product_data)
+
+            result = self.pos_api.send_product(product_data)
             if result.get("success"):
                 log(f"Successfully created POS product: {getattr(product, 'code', 'Unknown')}", "SUCCESS")
                 return True
@@ -133,8 +137,6 @@ class ProductProcessor:
             bool: True if product found, False otherwise
         """
         try:
-            pos_api = PosAPI()
-
             # Get product code to search for - try pos_product_code first, then code
             product_code = getattr(product, 'pos_product_code', '') or getattr(product, 'code', '')
 
@@ -145,7 +147,7 @@ class ProductProcessor:
                 return False
 
             # Search for the product
-            search_result = pos_api.search_product_by_code(product_code)
+            search_result = self.pos_api.search_product_by_code(product_code)
 
             if search_result and search_result.get("products_found", 0) > 0:
                 first_product = search_result.get("first_product", {})
@@ -162,7 +164,7 @@ class ProductProcessor:
                 raw_code = getattr(product, 'code', '')
                 if raw_code and raw_code != product_code:
                     log(f"Trying search with raw code: '{raw_code}'", "INFO")
-                    search_result2 = pos_api.search_product_by_code(raw_code)
+                    search_result2 = self.pos_api.search_product_by_code(raw_code)
                     if search_result2 and search_result2.get("products_found", 0) > 0:
                         first_product = search_result2.get("first_product", {})
                         log(f"POS product found with raw code: {first_product.get('name', 'Unknown')}", "SUCCESS")
@@ -209,8 +211,7 @@ class ProductProcessor:
                     search_result = None
 
             if search_result is None or search_result.get("products_found", 0) == 0:
-                # Initialize PosAPI and search manually
-                pos_api = PosAPI()
+                # Search manually
                 product_code = getattr(product, 'pos_product_code', '') or getattr(product, 'code', '')
 
                 if not product_code:
@@ -218,14 +219,11 @@ class ProductProcessor:
                     return False
 
                 log(f"Searching for product '{product_code}' to create combo", "INFO")
-                search_result = pos_api.search_product_by_code(product_code)
+                search_result = self.pos_api.search_product_by_code(product_code)
 
                 if not search_result or search_result.get("products_found", 0) == 0:
                     log(f"Product '{product_code}' not found, cannot create combo", "ERROR")
                     return False
-            else:
-                # Initialize PosAPI for combo creation
-                pos_api = PosAPI()
 
             # Get product ID from search results
             product_id = search_result.get("first_product", {}).get("id")
@@ -279,7 +277,7 @@ class ProductProcessor:
                     log(f"Creating combo {i+1}/{len(combo_list)}: {combo_name} (quantity: {count}, value: {combo_value})", "INFO")
 
                     # Create the combo product
-                    result = pos_api.create_combo_product(combo_data)
+                    result = self.pos_api.create_combo_product(combo_data)
 
                     if result.get("success"):
                         combo_id = result.get("data", {}).get("id")
