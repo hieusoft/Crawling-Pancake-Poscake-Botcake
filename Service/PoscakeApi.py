@@ -26,7 +26,7 @@ class PosAPI:
             access_token: POS access token
             shop_id: Shop ID
         """
-        self.access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGlldSIsImV4cCI6MTc3NjEwMzUwNywiYXBwbGljYXRpb24iOjEsInVpZCI6ImFjNmU3MjQ0LWYyZTQtNGUxNy04YTk5LTgzNDA3NjhiOWZmMSIsInNlc3Npb25faWQiOiIxNWY2NTQyYy01ODkxLTQwY2EtOWY5MC0wMWNjNTZhZmQ1NzEiLCJpYXQiOjE3NjgzMjc1MDcsImZiX2lkIjoiMjM4NDQwNzc5NTE3Njc4MCIsImxvZ2luX3Nlc3Npb24iOm51bGwsImZiX25hbWUiOiJoaWV1In0.mfGVd1z3Zr8kT2ryu6Nf-5AcRB_QtJFy-UVhW8Haoyk"
+        self.access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTmd1eWVuIE5hbSIsImV4cCI6MTc3NjE3ODA2MywiYXBwbGljYXRpb24iOjEsInVpZCI6IjAyNTQ5OWE4LTg4MDgtNDY3Yy1iYjgwLTMyZTcxN2RiZjM0YSIsInNlc3Npb25faWQiOiI0YmQ3ZThmMC1iMmIwLTQ2MjUtODA0Ni1iYWI2ZDZkZDEwOTEiLCJpYXQiOjE3Njg0MDIwNjMsImZiX2lkIjoiMzkzMDY2MTY1NTQzNjc1IiwibG9naW5fc2Vzc2lvbiI6bnVsbCwiZmJfbmFtZSI6Ik5ndXllbiBOYW0ifQ.NdbiqANtdk4AwfibWuuy0ciJw0Tqo8E3wO7xQJMzVh0"
         self.shop_id = shop_id or "3027495"
         self.base_url = f"https://pos.pancake.vn/api/v1/shops/{self.shop_id}"
 
@@ -108,6 +108,7 @@ class PosAPI:
                     "price": price,
                     "color_name": c["name"],
                     "color_key": c["key"],
+                    "color_index": c_idx,  # Add color index
                     "size": s
                 })
                 idx += 1
@@ -168,7 +169,7 @@ class PosAPI:
             data[f"product[product_attributes][0][keyword][{i}][value]"] = color_name
         data["product[product_attributes][0][index]"] = "0"
 
-        # Size - get from Product.attr_size
+        
         sizes = getattr(product, 'attr_size', [])
         data["product[product_attributes][1][name]"] = "size"
         for i, size_name in enumerate(sizes):
@@ -191,7 +192,10 @@ class PosAPI:
             data[f"product[variations][{i}][not_create_transaction]"] = "false"
 
             # === IMAGES ===
-            for img_index, image_id in enumerate(image_ids):
+            # Only assign image that matches the color index
+            color_index = v.get("color_index", 0)
+            if color_index < len(image_ids):
+                image_id = image_ids[color_index]
                 # Get photo object from uploaded_images dict
                 photo_obj = uploaded_images.get(image_id)
                 if photo_obj and isinstance(photo_obj, dict):
@@ -201,7 +205,8 @@ class PosAPI:
                     # Fallback: use image_id as direct URL or empty string
                     image_url = image_id if isinstance(image_id, str) and image_id.startswith('http') else ""
 
-                data[f"product[variations][{i}][images][{img_index}]"] = image_url
+                # Assign image at index 0 (single image per variation based on color)
+                data[f"product[variations][{i}][images][0]"] = image_url
                 
 
             # === Color ===
