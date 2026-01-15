@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  product-cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: product-processing-cron
+    restart: unless-stopped
+
+    # Environment variables
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - PYTHONPATH=/app
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/service-account.json
+
+    # Volumes for persistent data
+    volumes:
+      - ./data:/app/data:rw
+      - ./images:/app/images:rw
+      - ./logs:/app/logs:rw
+      - ./config:/app/config:ro
+      - product_state:/app/product_state:rw
+
+    # Networks
+    networks:
+      - product-network
+
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os; os.path.exists('product_state.json') and print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Web server for monitoring
+  web-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: product-monitor
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    volumes:
+      - ./data:/app/data:ro
+      - ./logs:/app/logs:ro
+      - product_state:/app/product_state:ro
+    command: ["python", "-c", "
+import http.server
+import socketserver
+import json
+import os
+from datetime import datetime
+
+class MonitorHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/health':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'status': 'healthy', 'timestamp': datetime.now().isoformat()}).encode())
+        elif self.path == '/status':
+            try:
+                with open('/app/product_state.json', 'r') as f:
+                    state = json.load(f)
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps(state).encode())
+            except:
+                self.send_response(500)
+                self.end_headers()
+                self.wfile.write(b'{\"error\": \"Cannot read state\"}')
+        else:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b'Not Found')
+
+httpd = socketserver.TCPServer(('', 8000), MonitorHandler)
+print('Monitor server running on port 8000')
+httpd.serve_forever()
+"]
+    networks:
+      - product-network
+    depends_on:
+      - product-cron
+
+volumes:
+  product_state:
+    driver: local
+
+networks:
+  product-network:
+    driver: bridge
+
+
+
+
+
