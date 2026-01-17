@@ -1,0 +1,850 @@
+[
+    {
+        "id": "5ee082c4-8a35-4f2d-88ed-2670a20273cd",
+        "name": "ÁO GILE DV49",
+        "shop_id": 2962455,
+        "display_id": 226,
+        "custom_id": "ÁO GILE DV49",
+        "product_attributes": [
+            {
+                "id": "47299a8c-012b-4d17-876c-5add5234dc03",
+                "keyword": [
+                    {
+                        "keyValue": "DO",
+                        "value": "ĐỎ"
+                    },
+                    {
+                        "keyValue": "HONG",
+                        "value": "HỒNG"
+                    },
+                    {
+                        "keyValue": "KEM",
+                        "value": "KEM"
+                    }
+                ],
+                "name": "màu",
+                "values": [
+                    "ĐỎ",
+                    "HỒNG",
+                    "KEM"
+                ]
+            },
+            {
+                "id": "5677ae3d-d94b-408a-a871-94bbbd5bbd8f",
+                "keyword": [
+                    {
+                        "keyValue": "S",
+                        "value": "S"
+                    },
+                    {
+                        "keyValue": "M",
+                        "value": "M"
+                    },
+                    {
+                        "keyValue": "L",
+                        "value": "L"
+                    },
+                    {
+                        "keyValue": "XL",
+                        "value": "XL"
+                    },
+                    {
+                        "keyValue": "2XL",
+                        "value": "2XL"
+                    },
+                    {
+                        "keyValue": "3XL",
+                        "value": "3XL"
+                    }
+                ],
+                "name": "size",
+                "values": [
+                    "S",
+                    "M",
+                    "L",
+                    "XL",
+                    "2XL",
+                    "3XL"
+                ]
+            }
+        ],
+        "tags": [],
+        "removed": false,
+        "category_ids": [],
+        "variations": [
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-DO-S",
+                "display_id": 1,
+                "fields": [
+                    {
+                        "id": "aa80f827-fd86-4c17-af7f-1ad716280978",
+                        "keyValue": "DO",
+                        "name": "màu",
+                        "value": "ĐỎ"
+                    },
+                    {
+                        "id": "b5062291-ed52-4da3-a8f2-c0ca44719872",
+                        "keyValue": "S",
+                        "name": "size",
+                        "value": "S"
+                    }
+                ],
+                "id": "235974b4-3b2e-4d7c-ae5e-cb8c305123e8",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/10397975e8812f63d69f1b16de0253c692303bac.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 10,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "47fb34f1-a048-4528-9469-6b36d87fb554",
+                        "nearly_out": true,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0.142857142857143,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 10,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "235974b4-3b2e-4d7c-ae5e-cb8c305123e8",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-DO-M",
+                "display_id": 2,
+                "fields": [
+                    {
+                        "id": "3d006813-28bb-41e5-af67-e9023828d3ab",
+                        "keyValue": "DO",
+                        "name": "màu",
+                        "value": "ĐỎ"
+                    },
+                    {
+                        "id": "6b09c163-01be-4a16-8e06-cc0c39d43475",
+                        "keyValue": "M",
+                        "name": "size",
+                        "value": "M"
+                    }
+                ],
+                "id": "0b188c2c-4bb6-4f99-adc8-555fb1bdc235",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/10397975e8812f63d69f1b16de0253c692303bac.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 21,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "c247098b-cd38-4f14-80ea-6ffc14192c57",
+                        "nearly_out": true,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0.571428571428571,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 22,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "0b188c2c-4bb6-4f99-adc8-555fb1bdc235",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-DO-L",
+                "display_id": 3,
+                "fields": [
+                    {
+                        "id": "43267eaf-1869-4a4c-8f18-dc48a395ca4a",
+                        "keyValue": "DO",
+                        "name": "màu",
+                        "value": "ĐỎ"
+                    },
+                    {
+                        "id": "5ae9c3eb-3d2f-4b90-a5c2-ed0242c50784",
+                        "keyValue": "L",
+                        "name": "size",
+                        "value": "L"
+                    }
+                ],
+                "id": "182aa19a-b2cf-472c-8ede-a8eb0d8924fb",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/10397975e8812f63d69f1b16de0253c692303bac.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 26,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "26641444-4dba-4241-8168-a94d7fb982b1",
+                        "nearly_out": true,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0.857142857142857,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 27,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "182aa19a-b2cf-472c-8ede-a8eb0d8924fb",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-DO-XL",
+                "display_id": 4,
+                "fields": [
+                    {
+                        "id": "1abd07c0-0ca0-4d43-9ce1-8d37e699d68a",
+                        "keyValue": "DO",
+                        "name": "màu",
+                        "value": "ĐỎ"
+                    },
+                    {
+                        "id": "32546858-ef40-4ea7-867f-334df46cb45a",
+                        "keyValue": "XL",
+                        "name": "size",
+                        "value": "XL"
+                    }
+                ],
+                "id": "3b513efb-2e53-4a39-9ba9-f6b54f6edfc5",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/10397975e8812f63d69f1b16de0253c692303bac.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 10,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "dbc7439b-6720-4943-a371-2ca3406b7025",
+                        "nearly_out": true,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0.428571428571429,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 10,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "3b513efb-2e53-4a39-9ba9-f6b54f6edfc5",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-DO-2XL",
+                "display_id": 5,
+                "fields": [
+                    {
+                        "id": "bcb29328-44a4-45bd-b2bc-e652d6811583",
+                        "keyValue": "DO",
+                        "name": "màu",
+                        "value": "ĐỎ"
+                    },
+                    {
+                        "id": "9262dc83-2bf1-410d-baaa-78217b114f3d",
+                        "keyValue": "2XL",
+                        "name": "size",
+                        "value": "2XL"
+                    }
+                ],
+                "id": "0aa3dd5f-ec39-4ea4-8379-204c8ac7cc55",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/10397975e8812f63d69f1b16de0253c692303bac.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 3,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "6c33e42a-302a-43e7-b111-d1afbc501c20",
+                        "nearly_out": null,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 3,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "0aa3dd5f-ec39-4ea4-8379-204c8ac7cc55",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-DO-3XL",
+                "display_id": 6,
+                "fields": [
+                    {
+                        "id": "69d7d41f-6e78-4150-9928-b1e096956c6b",
+                        "keyValue": "DO",
+                        "name": "màu",
+                        "value": "ĐỎ"
+                    },
+                    {
+                        "id": "7c1488b8-b5a3-40eb-bc2f-397b66a80dee",
+                        "keyValue": "3XL",
+                        "name": "size",
+                        "value": "3XL"
+                    }
+                ],
+                "id": "368cd3ca-129e-46d7-b3fd-1de681a5d62a",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/10397975e8812f63d69f1b16de0253c692303bac.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-HONG-S",
+                "display_id": 7,
+                "fields": [
+                    {
+                        "id": "c14e1464-a8ec-422c-aaff-95c491e86a36",
+                        "keyValue": "HONG",
+                        "name": "màu",
+                        "value": "HỒNG"
+                    },
+                    {
+                        "id": "936c0428-1651-4ae1-bf2d-86818ee95133",
+                        "keyValue": "S",
+                        "name": "size",
+                        "value": "S"
+                    }
+                ],
+                "id": "6052bba0-75d4-4861-849c-4aea3359b66f",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/90ea884fe12d9d359ba46e413500ed2ea7eba6be.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-HONG-M",
+                "display_id": 8,
+                "fields": [
+                    {
+                        "id": "3e08f4a3-1065-4a25-b7c6-cbbaa7696242",
+                        "keyValue": "HONG",
+                        "name": "màu",
+                        "value": "HỒNG"
+                    },
+                    {
+                        "id": "cc329e36-9724-441f-b3ba-1eadfa8d1e6b",
+                        "keyValue": "M",
+                        "name": "size",
+                        "value": "M"
+                    }
+                ],
+                "id": "26718707-f325-4622-ad26-4c61028418e2",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/90ea884fe12d9d359ba46e413500ed2ea7eba6be.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 1,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "2e94ef98-1553-4df4-adf5-b34ee34ffee7",
+                        "nearly_out": null,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 1,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "26718707-f325-4622-ad26-4c61028418e2",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-HONG-L",
+                "display_id": 9,
+                "fields": [
+                    {
+                        "id": "4e13c50e-4eee-409c-8c90-b9f2db83a469",
+                        "keyValue": "HONG",
+                        "name": "màu",
+                        "value": "HỒNG"
+                    },
+                    {
+                        "id": "15086e4f-5094-49e2-8625-3b5b992e9157",
+                        "keyValue": "L",
+                        "name": "size",
+                        "value": "L"
+                    }
+                ],
+                "id": "7230fd77-8474-46ed-ae8f-69746facc88f",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/90ea884fe12d9d359ba46e413500ed2ea7eba6be.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-HONG-XL",
+                "display_id": 10,
+                "fields": [
+                    {
+                        "id": "be5695dd-214e-4e74-a49f-363057b37a96",
+                        "keyValue": "HONG",
+                        "name": "màu",
+                        "value": "HỒNG"
+                    },
+                    {
+                        "id": "754cad7b-1b4e-449b-a14e-6a3e263d8cd6",
+                        "keyValue": "XL",
+                        "name": "size",
+                        "value": "XL"
+                    }
+                ],
+                "id": "8b9fdadb-83ed-4efd-85e7-82c96e675ee6",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/90ea884fe12d9d359ba46e413500ed2ea7eba6be.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 1,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "35af92c6-baf7-4835-b697-514805d4d283",
+                        "nearly_out": null,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 1,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "8b9fdadb-83ed-4efd-85e7-82c96e675ee6",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-HONG-2XL",
+                "display_id": 11,
+                "fields": [
+                    {
+                        "id": "5726c919-74c6-4d4e-98f1-f79c74cb35fd",
+                        "keyValue": "HONG",
+                        "name": "màu",
+                        "value": "HỒNG"
+                    },
+                    {
+                        "id": "b6f907d4-7e38-452d-8be2-af993266a604",
+                        "keyValue": "2XL",
+                        "name": "size",
+                        "value": "2XL"
+                    }
+                ],
+                "id": "22cf90f6-8de7-4119-95b5-fca6bdc05bc2",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/90ea884fe12d9d359ba46e413500ed2ea7eba6be.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-HONG-3XL",
+                "display_id": 12,
+                "fields": [
+                    {
+                        "id": "d1c9ddf0-e0b8-4b39-8bf5-45c0264c28b3",
+                        "keyValue": "HONG",
+                        "name": "màu",
+                        "value": "HỒNG"
+                    },
+                    {
+                        "id": "bcb1f954-848a-435e-a1a8-9fe73000a2f1",
+                        "keyValue": "3XL",
+                        "name": "size",
+                        "value": "3XL"
+                    }
+                ],
+                "id": "a5f83990-965e-4e49-b127-76851b1a90d6",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/90ea884fe12d9d359ba46e413500ed2ea7eba6be.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-KEM-S",
+                "display_id": 13,
+                "fields": [
+                    {
+                        "id": "1d9678f4-3d87-4404-b98a-85ca06c17a1a",
+                        "keyValue": "KEM",
+                        "name": "màu",
+                        "value": "KEM"
+                    },
+                    {
+                        "id": "851680ff-c1f3-4e7a-a84d-0e19d1487ad7",
+                        "keyValue": "S",
+                        "name": "size",
+                        "value": "S"
+                    }
+                ],
+                "id": "204a2b94-9a26-407d-b0d8-0ce14d2d277b",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/a4afc222f25f1a82c468828b4e09920b39a5af2e.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-KEM-M",
+                "display_id": 14,
+                "fields": [
+                    {
+                        "id": "0e5d4ae6-40f8-4fd6-9baf-5b5baf40d5a5",
+                        "keyValue": "KEM",
+                        "name": "màu",
+                        "value": "KEM"
+                    },
+                    {
+                        "id": "64b6cf9b-1aae-4341-a27f-aaa38b6d51c3",
+                        "keyValue": "M",
+                        "name": "size",
+                        "value": "M"
+                    }
+                ],
+                "id": "89240f47-353f-49f2-8f17-1a3eb1efbc9d",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/a4afc222f25f1a82c468828b4e09920b39a5af2e.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [
+                    {
+                        "actual_remain_quantity": 1,
+                        "available_quantity": 0,
+                        "avg_price": 0,
+                        "batch_position": null,
+                        "defect_quantity": 0,
+                        "id": "6670ea9b-5ed1-4f1f-8338-adeb3fe6cd16",
+                        "nearly_out": null,
+                        "not_permission_view_quantity": null,
+                        "pending_export_quantity": 0,
+                        "pending_quantity": 0,
+                        "pending_transfer_quantity": 0,
+                        "quantity_in_batch": 0,
+                        "remain_quantity": 0,
+                        "returning_quantity": 0,
+                        "selling_avg": 0,
+                        "selling_status": "bad",
+                        "shelf_position": null,
+                        "shelf_quantity": 0,
+                        "shipping_quantity": 0,
+                        "shop_id": 2962455,
+                        "total_quantity": 2,
+                        "total_quantity_transfer": 0,
+                        "transfer_quantity": 0,
+                        "variation_id": "89240f47-353f-49f2-8f17-1a3eb1efbc9d",
+                        "waitting_quantity": 0,
+                        "warehouse_id": "c027437d-24cb-4a35-9cc1-f50055aee92c"
+                    }
+                ],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-KEM-L",
+                "display_id": 15,
+                "fields": [
+                    {
+                        "id": "8a6876c8-feca-494b-a771-989c51f9f307",
+                        "keyValue": "KEM",
+                        "name": "màu",
+                        "value": "KEM"
+                    },
+                    {
+                        "id": "0e187207-b35f-4fa3-a72a-d9acfbed436a",
+                        "keyValue": "L",
+                        "name": "size",
+                        "value": "L"
+                    }
+                ],
+                "id": "650ec98e-5103-48e2-ac0e-ea2b94ae92e9",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/a4afc222f25f1a82c468828b4e09920b39a5af2e.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-KEM-XL",
+                "display_id": 16,
+                "fields": [
+                    {
+                        "id": "1e245bd7-b461-462b-9062-469eb29069fc",
+                        "keyValue": "KEM",
+                        "name": "màu",
+                        "value": "KEM"
+                    },
+                    {
+                        "id": "96003638-1d89-4afc-a478-d555bc587a26",
+                        "keyValue": "XL",
+                        "name": "size",
+                        "value": "XL"
+                    }
+                ],
+                "id": "e4f1ee2a-8175-4a66-b24c-dbaee6a3a340",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/a4afc222f25f1a82c468828b4e09920b39a5af2e.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-KEM-2XL",
+                "display_id": 17,
+                "fields": [
+                    {
+                        "id": "fa25ec0e-b28e-4d12-89ca-2aff034f1e5a",
+                        "keyValue": "KEM",
+                        "name": "màu",
+                        "value": "KEM"
+                    },
+                    {
+                        "id": "c3cfeb30-3be0-4ab4-ab38-2892e2030141",
+                        "keyValue": "2XL",
+                        "name": "size",
+                        "value": "2XL"
+                    }
+                ],
+                "id": "33a77c48-7cdc-4a6b-9247-82529e2a37b9",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/a4afc222f25f1a82c468828b4e09920b39a5af2e.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            },
+            {
+                "barcode": null,
+                "custom_id": "AOGILEDV49-KEM-3XL",
+                "display_id": 18,
+                "fields": [
+                    {
+                        "id": "cd67c93a-4e1f-47b4-a1cc-376d36e272de",
+                        "keyValue": "KEM",
+                        "name": "màu",
+                        "value": "KEM"
+                    },
+                    {
+                        "id": "e7f4df0c-aa93-4537-a1c3-5f54acb7aec8",
+                        "keyValue": "3XL",
+                        "name": "size",
+                        "value": "3XL"
+                    }
+                ],
+                "id": "cee22da7-c7e1-4ba3-b856-8f2af2759bdd",
+                "images": [
+                    "https://content.pancake.vn/2-2512/2025/12/25/a4afc222f25f1a82c468828b4e09920b39a5af2e.jpg"
+                ],
+                "is_locked": false,
+                "is_removed": null,
+                "retail_price": 299000,
+                "retail_price_by_currency": [],
+                "shop_id": 2962455,
+                "variations_warehouses": [],
+                "weight": 0
+            }
+        ],
+        "permalink": null
+    }
+]

@@ -9,6 +9,7 @@ from typing import List, Dict, Any, Optional
 # Import services and processors
 from Service.PancakeApi import PancakeAPI
 from Service.PoscakeApi import PosAPI
+from Service.BotcakeApi import BotcakeAPI
 from Core.ImageProcessor import ImageProcessor
 from Core.SettingsProcessor import SettingsProcessor
 
@@ -59,37 +60,39 @@ class ProductProcessor:
             pancake_api = PancakeAPI(page_id=product_page_id, access_token=self.access_token)
 
             # Step 1: Process images (download & upload)
-            if not self.image_processor.process_product_images(product, pancake_api):
-                log(f"[Thread-{thread_id}] Failed to process images for {product_code}", "ERROR")
-                return False
+            # if not self.image_processor.process_product_images(product, pancake_api):
+            #     log(f"[Thread-{thread_id}] Failed to process images for {product_code}", "ERROR")
+            #     return False
 
-            # Step 2: Update settings (optional - continue even if fails)
-            if not self.settings_processor.update_product_settings(
-                product,
-                pancake_api,
-                self.image_processor.uploaded_images
-            ):
-                log(f"[Thread-{thread_id}] Settings update failed for {product_code}, but continuing...", "WARNING")
+            # # Step 2: Update settings (optional - continue even if fails)
+            # if not self.settings_processor.update_product_settings(
+            #     product,
+            #     pancake_api,
+            #     self.image_processor.uploaded_images
+            # ):
+            #     log(f"[Thread-{thread_id}] Settings update failed for {product_code}, but continuing...", "WARNING")
 
-            # Step 3: Create product on POS Pancake
-            if not self.create_pos_product(product):
-                log(f"[Thread-{thread_id}] Failed to create POS product for {product_code}", "ERROR")
-                return False
+            # # Step 3: Create product on POS Pancake
+            # if not self.create_pos_product(product):
+            #     log(f"[Thread-{thread_id}] Failed to create POS product for {product_code}", "ERROR")
+            #     return False
 
-            # Step 4: Verify POS product creation by searching
+            # # Step 4: Verify POS product creation by searching
+            # if not self.verify_pos_product(product):
+            #     log(f"[Thread-{thread_id}] POS product verification failed for {product_code}", "WARNING")
+            #     # Don't return False here, as POS creation might have succeeded but search failed
+
+            # # Step 5: Create combo products (only if create_combo flag is True)
+            # # Only create combo when product code changes, not when other content changes
+            # if create_combo:
+            #     # Use the search result from step 4 to avoid re-searching
+            #     if not self.create_combo_product(product):
+            #         log(f"[Thread-{thread_id}] Combo product creation failed for {product_code}, but continuing...", "WARNING")
+            # else:
+            #     log(f"[Thread-{thread_id}] Skipping combo creation for {product_code} (content changed but code unchanged)", "INFO")
             if not self.verify_pos_product(product):
                 log(f"[Thread-{thread_id}] POS product verification failed for {product_code}", "WARNING")
                 # Don't return False here, as POS creation might have succeeded but search failed
-
-            # Step 5: Create combo products (only if create_combo flag is True)
-            # Only create combo when product code changes, not when other content changes
-            if create_combo:
-                # Use the search result from step 4 to avoid re-searching
-                if not self.create_combo_product(product):
-                    log(f"[Thread-{thread_id}] Combo product creation failed for {product_code}, but continuing...", "WARNING")
-            else:
-                log(f"[Thread-{thread_id}] Skipping combo creation for {product_code} (content changed but code unchanged)", "INFO")
-            
             log(f"[Thread-{thread_id}] Completed product: {product_code}", "SUCCESS")
             return True
 
@@ -179,6 +182,8 @@ class ProductProcessor:
             return False
 
     def create_combo_product(self, product, search_result=None) -> bool:
+
+
         """
         Create combo products on POS Pancake system based on product.pos_product_combo
 
@@ -298,3 +303,5 @@ class ProductProcessor:
         except Exception as e:
             log(f"Exception creating combo product: {e}", "ERROR")
             return False
+    def verify_bot_product(self, product) -> bool:
+        

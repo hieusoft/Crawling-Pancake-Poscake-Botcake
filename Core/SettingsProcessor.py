@@ -7,7 +7,7 @@ from typing import List, Dict, Any, Optional
 import json
 # Import services
 from Service.PancakeApi import PancakeAPI
-
+from Service.PoscakeApi import PoscakeAPI
 # Simple logger
 def log(message: str, level: str = "INFO") -> None:
     """Simple logging function"""
@@ -177,3 +177,4 @@ class SettingsProcessor:
             print(f"[ERROR] Failed to update first reply: {e}")
 
         return updated_replies
+
